@@ -1,6 +1,6 @@
 pipeline {
-    agent { label "maven-label" }
-
+    agent any
+    
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
         maven "M3"
@@ -10,12 +10,10 @@ pipeline {
         stage('Build') {
             steps {
                 // Get some code from a GitHub repository
-                git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+                git branch: 'main', url: 'https://github.com/sakthinatural/retail-app.git'
 
                 // Run Maven on a Unix agent.
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
-                sh "mvn -Dmaven.test.failure.ignore=true clean deploy sonar:sonar -Dsonar.host.url='url'"
-                "
 
                 // To run Maven on a Windows agent, use
                 // bat "mvn -Dmaven.test.failure.ignore=true clean package"
